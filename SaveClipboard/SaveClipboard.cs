@@ -27,21 +27,21 @@ namespace SaveClipboard
                 Image i = Clipboard.GetImage();
                 string name = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
 
-                string fileName = PathToSave + name + "-%id%." + GetImageExtension(i);
+                string fileName = PathToSave + name + "%id%." + GetImageExtension(i);
                 int c = 1;
-                while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : c.ToString()))) c++;
-                i.Save(PathToSave);
+                while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()))) c++;
+                i.Save(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()));
             }
             else if (Clipboard.ContainsText())
             {
                 string s = Clipboard.GetText();
                 string name = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
 
-                string fileName = PathToSave + name + "-%id%.txt";
+                string fileName = PathToSave + name + "%id%.txt";
                 int c = 1;
-                while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : c.ToString()))) c++;
+                while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()))) c++;
 
-                fileName = fileName.Replace("%id%", c.ToString().Equals("1") ? "" : c.ToString());
+                fileName = fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString());
 
                 File.WriteAllText(fileName, s);
             }
