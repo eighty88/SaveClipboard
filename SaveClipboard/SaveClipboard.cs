@@ -28,12 +28,12 @@ namespace SaveClipboard
             {
                 Image i = Clipboard.GetImage();
 
-                fileName = fileName.Replace("%ext%", GetImageExtension(i));
+                fileName = fileName.Replace("%ext%", "png");
 
                 int c = 1;
                 while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()))) c++;
 
-                i.Save(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()));
+                i.Save(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()), ImageFormat.Png);
             }
             else if (Clipboard.ContainsText())
             {
@@ -46,30 +46,6 @@ namespace SaveClipboard
 
                 File.WriteAllText(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()), s);
             }
-        }
-
-        private static string GetImageExtension(Image image)
-        {
-            if (image.RawFormat.Equals(ImageFormat.Jpeg))
-                return "jpg";
-            if (image.RawFormat.Equals(ImageFormat.Bmp))
-                return "bmp";
-            if (image.RawFormat.Equals(ImageFormat.Png))
-                return "png";
-            if (image.RawFormat.Equals(ImageFormat.Emf))
-                return "emf";
-            if (image.RawFormat.Equals(ImageFormat.Exif))
-                return "exif";
-            if (image.RawFormat.Equals(ImageFormat.Gif))
-                return "gif";
-            if (image.RawFormat.Equals(ImageFormat.Icon))
-                return "ico";
-            if (image.RawFormat.Equals(ImageFormat.MemoryBmp))
-                return "bmp";
-            if (image.RawFormat.Equals(ImageFormat.Tiff))
-                return "tiff";
-            else
-                return "wmf";
         }
     }
 }
