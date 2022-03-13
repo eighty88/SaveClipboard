@@ -22,28 +22,29 @@ namespace SaveClipboard
                 Directory.CreateDirectory(PathToSave);
             }
 
+            string fileName = PathToSave + DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss") + "%id%.%ext%";
+
             if (Clipboard.ContainsImage())
             {
                 Image i = Clipboard.GetImage();
-                string name = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
 
-                string fileName = PathToSave + name + "%id%." + GetImageExtension(i);
+                fileName = fileName.Replace("%ext%", GetImageExtension(i));
+
                 int c = 1;
                 while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()))) c++;
+
                 i.Save(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()));
             }
             else if (Clipboard.ContainsText())
             {
                 string s = Clipboard.GetText();
-                string name = DateTime.Now.ToString("yyyy-MM-dd_HH.mm.ss");
 
-                string fileName = PathToSave + name + "%id%.txt";
+                fileName = fileName.Replace("%ext%", "txt");
+
                 int c = 1;
                 while (File.Exists(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()))) c++;
 
-                fileName = fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString());
-
-                File.WriteAllText(fileName, s);
+                File.WriteAllText(fileName.Replace("%id%", c.ToString().Equals("1") ? "" : "-" + c.ToString()), s);
             }
         }
 
